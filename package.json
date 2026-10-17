@@ -1,0 +1,12 @@
+{
+  "name": "jane-eyre-reader",
+  "version": "1.0.0",
+  "description": "Jane Eyre as an immersive, page-turning web book (static, no build step).",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8765",
+    "parse": "python3 -I tools/parse.py /path/to/Jane_Eyre_pdf.txt content/book.json",
+    "test": "node tests/e2e.cjs"
+  },
+  "devDependencies": { "playwright": "^1.45.0" }
+}

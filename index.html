@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jane Eyre — A Classic Novel</title>
+<meta name="description" content="Charlotte Brontë's Jane Eyre, complete, set as a book you can turn the pages of.">
+<meta name="theme-color" content="#1b1512">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23542B35'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' fill='%23A68A58'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/reader.css">
+<link rel="stylesheet" href="css/cover.css">
+<link rel="stylesheet" href="css/extras.css">
+</head>
+<body data-theme="ivory" data-state="cover">
+<a class="skip" href="#stage">Skip to the book</a>
+
+<div id="stage">
+  <div id="lampGlow" aria-hidden="true"></div>
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div id="vignette" aria-hidden="true"></div>
+
+  <p id="dedication" class="dedication">Some stories do not end at the final page. They stay with us, quietly, long after the book is closed.</p>
+
+  <div id="bookWrap">
+    <div id="book" data-mode="spread">
+      <div class="stack stack-l" aria-hidden="true"></div>
+      <div class="stack stack-r" aria-hidden="true"></div>
+      <div class="slot slot-a" id="slotA"></div>
+      <div class="slot slot-b" id="slotB" role="region" aria-label="Book page"></div>
+      <div class="cast cast-a" aria-hidden="true"></div>
+      <div class="cast cast-b" aria-hidden="true"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front"></div><div class="face back"></div><div class="shade s-front"></div></div>
+      <div class="place-ribbon" id="placeRibbon" hidden>
+        <span class="pr-lay" aria-hidden="true"></span>
+        <button type="button" class="pr-tail" id="ribbonBtn" aria-label="Return to your place"><span class="pr-silk" aria-hidden="true"></span></button>
+      </div>
+      <div class="gutter" aria-hidden="true"></div>
+      <button class="edge edge-prev" id="edgePrev" tabindex="-1" aria-label="Previous page"><span aria-hidden="true">‹</span></button>
+      <button class="edge edge-next" id="edgeNext" tabindex="-1" aria-label="Next page"><span aria-hidden="true">›</span></button>
+      <div class="leaf cover-leaf from-right" id="coverLeaf">
+        <div class="face front" id="coverFront"></div>
+        <div class="face back"><div class="endpaper"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="coverActions" class="cover-actions">
+    <button id="openBtn" class="btn-open" disabled>Open the Book</button>
+    <div class="cover-links">
+      <button id="beginBtn" class="btn-quiet" hidden>Begin again from the first page</button>
+      <button id="coverPassages" class="btn-quiet" hidden>My Passages</button>
+    </div>
+    <p id="coverNote" class="cover-note" role="status">Setting the type…</p>
+  </div>
+</div>
+
+<header id="topbar" class="bar" aria-label="Reading controls">
+  <div class="bar-group">
+    <button class="ib" id="btnToc" aria-label="Table of contents" aria-expanded="false" title="Contents (C)"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <button class="ib" id="btnCover" aria-label="Return to the cover" title="Close the book"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg></button>
+  </div>
+  <div class="bar-title" id="barTitle" aria-live="off"><span class="bt-book">Jane Eyre</span><span class="bt-chap" id="barChap"></span></div>
+  <div class="bar-group">
+    <span class="timer" id="timer" hidden title="Time spent reading">0m</span>
+    <button class="ib" id="btnPassages" aria-label="My Passages" aria-expanded="false" title="My Passages (M)"><svg viewBox="0 0 24 24"><path d="M19.500 4.500c-6.500 0-11 4.500-11.800 11.500L5 19.500M19.500 4.500c0 6.500-4.500 11-11.500 11.800M9.500 14h5"/></svg></button>
+    <button class="ib" id="btnLamp" aria-label="Reading lamp" aria-pressed="false" title="Reading lamp (L)"><svg viewBox="0 0 24 24"><path d="M8 3.500h8l2.500 8h-13zM12 11.500v6.500M8.500 20.500h7M10 18h4"/></svg></button>
+    <button class="ib" id="btnMark" aria-label="Bookmark this page" aria-pressed="false" title="Bookmark (B)"><svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-4-5 4z"/></svg></button>
+    <button class="ib" id="btnNotes" aria-label="Notebook: bookmarks, highlights and notes" aria-expanded="false" title="Notebook (N)"><svg viewBox="0 0 24 24"><path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2zM9 9h6M9 13h6"/></svg></button>
+    <button class="ib" id="btnSet" aria-label="Reading settings" aria-expanded="false" title="Type &amp; themes"><svg viewBox="0 0 24 24"><path d="M3 19l5-13 5 13M5 15h6M15 19l3.5-9 3.5 9M16.2 16h4.6"/></svg></button>
+    <button class="ib" id="btnFocus" aria-label="Distraction-free mode" aria-pressed="false" title="Focus (F)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 5v2M12 17v2M5 12h2M17 12h2"/></svg></button>
+    <button class="ib" id="btnFull" aria-label="Toggle fullscreen" aria-pressed="false" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  </div>
+</header>
+
+<footer id="bottombar" class="bar bar-bottom">
+  <button class="ib" id="btnPrevCh" aria-label="Previous chapter" title="Previous chapter ([)"><svg viewBox="0 0 24 24"><path d="M11 6l-6 6 6 6M19 6l-6 6 6 6"/></svg></button>
+  <button class="ib" id="btnPrev" aria-label="Previous page" title="Previous page (←)"><svg viewBox="0 0 24 24"><path d="M14 6l-6 6 6 6"/></svg></button>
+  <div class="scrub">
+    <div class="scrub-info"><span id="infoChap">—</span><span id="infoPage">—</span></div>
+    <input id="scrubber" type="range" min="1" max="100" value="1" aria-label="Page position in the book">
+  </div>
+  <button class="ib" id="btnNext" aria-label="Next page" title="Next page (→)"><svg viewBox="0 0 24 24"><path d="M10 6l6 6-6 6"/></svg></button>
+  <button class="ib" id="btnNextCh" aria-label="Next chapter" title="Next chapter (])"><svg viewBox="0 0 24 24"><path d="M13 6l6 6-6 6M5 6l6 6-6 6"/></svg></button>
+</footer>
+<div id="progressLine" aria-hidden="true"><i></i></div>
+
+<aside id="toc" class="drawer drawer-l" aria-label="Table of contents" hidden>
+  <div class="drawer-head"><h2>Contents</h2><button class="ib" data-close aria-label="Close contents"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <nav><ol id="tocList"></ol></nav>
+</aside>
+
+<aside id="notebook" class="drawer drawer-r" aria-label="Notebook" hidden>
+  <div class="drawer-head"><h2>Notebook</h2><button class="ib" data-close aria-label="Close notebook"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tabMarks" aria-selected="true" aria-controls="panelMarks">Bookmarks <b id="cntMarks">0</b></button>
+    <button role="tab" id="tabNotes" aria-selected="false" aria-controls="panelNotes" tabindex="-1">Highlights &amp; notes <b id="cntNotes">0</b></button>
+  </div>
+  <div id="panelMarks" role="tabpanel" aria-labelledby="tabMarks"></div>
+  <div id="panelNotes" role="tabpanel" aria-labelledby="tabNotes" hidden></div>
+</aside>
+
+<section id="settings" class="popover" aria-label="Reading settings" hidden>
+  <div class="set-row"><span class="set-label">Type size</span>
+    <div class="stepper"><button id="fsDown" aria-label="Smaller text">A<small>−</small></button><output id="fsOut" aria-live="polite">18</output><button id="fsUp" aria-label="Larger text">A<small>+</small></button></div></div>
+  <div class="set-row"><span class="set-label" id="themeLbl">Paper</span>
+    <div class="swatches" role="radiogroup" aria-labelledby="themeLbl">
+      <button role="radio" data-theme="ivory" aria-label="Ivory — candlelit white" aria-checked="true"><i></i><span>Ivory</span></button>
+      <button role="radio" data-theme="vellum" aria-label="Vellum — warm, aged paper" aria-checked="false"><i></i><span>Vellum</span></button>
+      <button role="radio" data-theme="moor" aria-label="Moor — cool, grey-green paper" aria-checked="false"><i></i><span>Moor</span></button>
+      <button role="radio" data-theme="gaslight" aria-label="Gaslight — dark pages for night" aria-checked="false"><i></i><span>Gaslight</span></button>
+    </div></div>
+  <label class="set-row check"><input type="checkbox" id="optTimer"><span>Show reading timer</span></label>
+  <div class="set-row check"><label><input type="checkbox" id="optPageSound"><span>Page-turn sound <em id="soundState">Off</em></span></label>
+    <input type="range" id="optPageVol" min="0" max="100" value="50" aria-label="Page-turn sound volume"></div>
+  <label class="set-row check"><input type="checkbox" id="optPause"><span>Pause at the end of each chapter</span></label>
+  <div class="set-row check"><label><input type="checkbox" id="optAmbient"><span>Ambient sound <em>(rain &amp; hearth)</em></span></label>
+    <input type="range" id="optVol" min="0" max="100" value="40" aria-label="Ambient volume"></div>
+  <p class="set-foot">Arrow keys turn pages · <kbd>[</kbd> <kbd>]</kbd> chapters · <kbd>C</kbd> contents · <kbd>B</kbd> bookmark · <kbd>F</kbd> focus · <kbd>L</kbd> lamp · <kbd>P</kbd> keep a selected passage · <kbd>M</kbd> My Passages</p>
+</section>
+
+<div id="selTool" class="seltool" role="toolbar" aria-label="Selection tools" hidden>
+  <button id="selHl">Highlight</button><button id="selNote">Add note</button><button id="selKeep" class="keep-btn" title="Keep this passage (P)">Keep passage</button>
+</div>
+<div id="notePop" class="notepop" hidden role="dialog" aria-label="Note on highlight">
+  <textarea id="notePopText" rows="4" maxlength="2000" placeholder="Write a note…" aria-label="Note text"></textarea>
+  <div class="np-row"><button id="npDelete" class="danger">Remove highlight</button><button id="npDone">Done</button></div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="live" class="sr" aria-live="polite" aria-atomic="true"></div>
+<div id="veil" hidden role="status" aria-live="polite">
+  <div class="plate">
+    <svg class="plate-orn" viewBox="0 0 160 124" aria-hidden="true" focusable="false">
+      <g class="pl-lines"><path pathLength="1" d="M4 104h58M98 104h58"/><path pathLength="1" d="M80 98l6 6-6 6-6-6z"/></g>
+      <g class="pl-lily"><path pathLength="1" d="M80 6c11 15 12 37 0 58-12-21-11-43 0-58z"/><path pathLength="1" d="M71 66C52 62 36 50 38 30c16 4 29 17 33 36z"/><path pathLength="1" d="M89 66c19-4 35-16 33-36-16 4-29 17-33 36z"/><path pathLength="1" d="M38 30c-13 4-16 22-3 28M122 30c13 4 16 22 3 28"/><path pathLength="1" d="M64 72h32M66 79h28M80 66v32"/></g>
+    </svg>
+    <p class="plate-t" id="veilText">Setting the type…</p>
+    <button type="button" class="plate-retry" id="veilRetry" hidden>Try again</button>
+  </div>
+</div>
+<div id="pause" class="pause" role="dialog" aria-modal="false" aria-labelledby="pauseT" hidden>
+  <div class="pause-card">
+    <span class="orn" aria-hidden="true"></span>
+    <p class="pause-over" id="pauseT">End of Chapter</p>
+    <p class="pause-next" id="pauseNext"></p>
+    <div class="pause-actions"><button type="button" class="btn-open pause-go" id="pauseGo">Continue</button><button type="button" class="btn-quiet" id="pauseStay">Stay on this page</button></div>
+  </div>
+</div>
+<div id="keepPop" class="keeppop" role="dialog" aria-label="Keep this passage" hidden>
+  <p class="kp-over" id="kpTitle">Keep this passage</p>
+  <blockquote class="kp-quote" id="kpQuote"></blockquote>
+  <div class="mood-row" id="kpMoods" role="radiogroup" aria-label="Mood (optional)"></div>
+  <textarea id="kpNote" rows="3" maxlength="2000" placeholder="A note to yourself (optional)…" aria-label="Personal note (optional)"></textarea>
+  <div class="np-row"><button type="button" id="kpCancel" class="danger">Cancel</button><button type="button" id="kpKeep">Keep</button></div>
+</div>
+<section id="journal" class="journal" role="dialog" aria-modal="true" aria-labelledby="jTitle" hidden>
+  <div class="j-sheet">
+    <header class="j-head">
+      <div><h2 id="jTitle">My Passages</h2><p class="j-sub">Lines kept from <em>Jane Eyre</em>. They are stored only in this browser.</p></div>
+      <button class="ib" id="jClose" aria-label="Close My Passages"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div class="j-tools" id="jTools">
+      <label class="j-search"><span class="sr">Search your passages</span><input id="jSearch" type="search" placeholder="Search passages and notes…" autocomplete="off"></label>
+      <div class="j-filters" id="jMoods" role="group" aria-label="Filter by mood"></div>
+      <div class="j-sort" role="group" aria-label="Sort passages"><button type="button" id="jSortRecent" aria-pressed="true">Recently kept</button><span aria-hidden="true">·</span><button type="button" id="jSortOrder" aria-pressed="false">Order of reading</button></div>
+    </div>
+    <div class="j-body" id="jBody" tabindex="-1"></div>
+    <div class="j-undo" id="jUndo" role="status" aria-live="polite" hidden><span id="jUndoText">Passage removed.</span><button type="button" id="jUndoBtn">Undo</button></div>
+  </div>
+</section>
+<div id="measure" class="pt" aria-hidden="true"></div>
+<noscript><p style="position:fixed;inset:0;display:grid;place-items:center;background:#1b1512;color:#e8dcc5;font:20px Georgia,serif;text-align:center;padding:2rem">This book needs JavaScript to turn its pages.</p></noscript>
+
+<script src="content/book.js"></script>
+<script src="js/store.js"></script>
+<script src="js/paginate.js"></script>
+<script src="js/ambient.js"></script>
+<script src="js/paper.js"></script>
+<script src="js/passages.js"></script>
+<script src="js/journal.js"></script>
+<script src="js/cover.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

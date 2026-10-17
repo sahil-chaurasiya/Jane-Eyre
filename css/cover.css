@@ -1,0 +1,41 @@
+/* ===== The cover: burgundy cloth, brass-stamped ===== */
+.cover-leaf{z-index:9}
+.cover-leaf.from-right{left:var(--pw);transform-origin:0 50%}
+body:not([data-state="cover"]):not([data-state="busy"]) .cover-leaf{display:none}
+#coverFront{border-radius:2px 5px 5px 2px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.4)}
+.cover{position:absolute;inset:0;color:#d8bf86;
+  background:
+   radial-gradient(ellipse 90% 60% at 30% 12%,rgba(255,190,150,.18),transparent 60%),
+   url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='c'><feTurbulence type='fractalNoise' baseFrequency='.75 .9' numOctaves='3' seed='9'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0'/></filter><rect width='180' height='180' filter='url(%23c)'/></svg>"),
+   repeating-linear-gradient(0deg,rgba(0,0,0,.09) 0 1px,transparent 1px 3px),
+   linear-gradient(160deg,#6b3643,#542B35 40%,#3d1d27);
+  background-blend-mode:normal,multiply,normal,normal}
+.cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:7%;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.12) 55%,rgba(255,255,255,.07) 60%,rgba(0,0,0,.3));z-index:3}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(115deg,rgba(255,255,255,.0) 30%,rgba(255,235,200,.10) 45%,rgba(255,255,255,0) 60%);background-size:250% 100%;animation:sheen 9s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+.cv-img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;z-index:1;user-select:none;-webkit-user-drag:none}
+/* printed-on-board finish: faint edge bevel and vignette over the artwork */
+.cv-bevel{position:absolute;inset:0;pointer-events:none;z-index:2;box-shadow:inset 0 0 0 1px rgba(255,235,200,.10),inset 0 0 38px rgba(0,0,0,.35)}
+.cv-grain{position:absolute;inset:0;z-index:5;pointer-events:none;mix-blend-mode:overlay;opacity:.16;animation:grain 1.2s steps(5) infinite;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='2'/></filter><rect width='160' height='160' filter='url(%23g)'/></svg>")}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-6px,4px)}50%{transform:translate(5px,-5px)}75%{transform:translate(-3px,-6px)}100%{transform:translate(4px,3px)}}
+
+/* closed-book depth: page block peeking out on the right edge, under cover */
+.cover-leaf::before{content:"";position:absolute;top:3px;bottom:3px;right:-5px;width:6px;transform:translateZ(-1px);background:repeating-linear-gradient(90deg,#e8dcc5 0 1px,#9d8f78 1px 2px)}
+.cover-leaf .face::after{display:none}
+
+/* light spill from above the book while closed */
+body[data-state="cover"] #stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse 45% 55% at 50% 42%,rgba(255,200,140,.17),transparent 70%);animation:lamp 6s ease-in-out infinite alternate}
+@keyframes lamp{from{opacity:.65}to{opacity:1}}
+
+/* ===== Cover actions ===== */
+.cover-actions{position:absolute;left:0;right:0;bottom:calc(var(--bot-gap,3vh));z-index:12;display:flex;flex-direction:column;align-items:center;gap:.55rem;transition:opacity .5s}
+body:not([data-state="cover"]) .cover-actions{opacity:0;pointer-events:none}
+.btn-open{font-family:var(--ff-disp);font-weight:700;letter-spacing:.34em;text-transform:uppercase;font-size:1.02rem;padding:.85rem 2rem .85rem 2.34rem;cursor:pointer;color:#f3e3bb;background:linear-gradient(#6b3643,#4a2230);border:1px solid var(--brass);border-radius:2px;box-shadow:0 0 0 3px #1b1512,0 0 0 4px rgba(166,138,88,.6),0 8px 28px rgba(0,0,0,.55);transition:transform .25s,box-shadow .25s,filter .25s}
+.btn-open:hover:not([disabled]){transform:translateY(-2px);filter:brightness(1.15)}
+.btn-open[disabled]{opacity:.55;cursor:progress}
+.btn-quiet{background:none;border:0;color:#bfae8d;cursor:pointer;font-style:italic;font-size:1rem;text-decoration:underline;text-underline-offset:3px}
+.btn-quiet:hover{color:#f3e3bb}
+.cover-note{margin:0;min-height:1.2em;color:#a99a80;font-style:italic;font-size:.95rem}
+@media (max-height:560px){.cover-actions{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.5rem 1.2rem;bottom:1vh}.cover-note{display:none}}
+@media (prefers-reduced-motion:reduce){.cv-grain,.cover::after,#stage::after{animation:none!important}}
