@@ -719,6 +719,7 @@
     // keyboard
     document.addEventListener('keydown', (e) => {
       S.lastInput = Date.now();
+      if (!document.getElementById('syncDlg').hidden) return;                       // the sync dialog handles its own keys
       if (JE.journal && JE.journal.isOpen()) { JE.journal.onKey(e); return; }      // My Passages owns the keyboard while open
       if (S.pauseOpen) {
         if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); hidePause(true); }
@@ -777,6 +778,7 @@
     el.optTimer.checked = st.timer; updateTimer();
     el.optPageSound.checked = st.pageSound; el.soundState.textContent = st.pageSound ? 'On' : 'Off'; el.optPageVol.value = Math.round(st.pageVol * 100);
     el.optPause.checked = st.chapterPause; setLamp(st.lamp, true);
+    if (JE.sync) JE.sync.init();
     if (JE.journal) JE.journal.init({ S, el, secs, secById, labelOf, locate, viewIdx, turnTo: (v, o) => turnTo(v, o), openBook, toast, mk, clamp, closeDrawer, closeSettings, flash: flashPassage, ordOf });
     S.seq = [{ t: 'title' }];
     const m = computeMetrics(); applyMetrics(m); setPose(coverPose()); setSlots(0);
@@ -795,6 +797,6 @@
     S.booted = true;
     if (JE.journal) JE.journal.refresh();
   }
-  JE.app = { returnToPlace, setLamp, flashPassage, maybePause, hidePause, ordOf, S, secs, pageEl, setSlots, locate, next, prev, turnTo, openBook, closeBook, goToSection, nextChapter, prevChapter, relayout, toggleMark, viewIdx, numViews, primaryPage, get st() { return st; } };
+  JE.app = { closeSettings, returnToPlace, setLamp, flashPassage, maybePause, hidePause, ordOf, S, secs, pageEl, setSlots, locate, next, prev, turnTo, openBook, closeBook, goToSection, nextChapter, prevChapter, relayout, toggleMark, viewIdx, numViews, primaryPage, get st() { return st; } };
   boot();
 })(window.JE = window.JE || {});

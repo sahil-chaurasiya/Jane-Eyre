@@ -50,6 +50,7 @@
   }
   function flush() {
     timer = null;
+    if (window.__jeFrozen) return;      // sync has just written fresh data and is about to reload
     try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* private mode / quota: carry on without persistence */ }
   }
   function save(immediate) {

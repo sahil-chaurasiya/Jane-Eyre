@@ -172,3 +172,17 @@ body.journal-open{overflow:hidden}
 .pr-tail{height:clamp(18px,calc(var(--ph)*.04),28px)}
 .pause{background:radial-gradient(ellipse at center,rgba(20,14,10,.78),rgba(8,6,4,.88))}
 .pause-card{padding:1.7rem 2.6rem 1.5rem;background:linear-gradient(#2a1f19,#211812);border:1px solid rgba(166,138,88,.6);outline:1px solid rgba(166,138,88,.28);outline-offset:-7px;box-shadow:0 18px 60px rgba(0,0,0,.6)}
+
+/* ---------- Sync & backup dialog ---------- */
+.sync-dlg{z-index:44}
+.sync-sheet{height:auto;max-height:calc(100% - 28px);align-self:center;width:min(560px,100%)}
+.sync-body{padding-top:1rem}
+.sync-lab{display:block;margin:.8rem 0 .3rem;font-family:var(--ff-disp);font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;color:var(--ink-soft)}
+.sync-body input,.sync-body textarea{width:100%;background:transparent;border:1px solid var(--rule);border-radius:3px;padding:.55rem .65rem;font:1.05rem var(--ff-text);color:var(--ink)}
+.sync-note{margin:.6rem 0 1rem;color:var(--ink-soft);font-style:italic;line-height:1.5}
+.sync-row{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;align-items:center;margin:.4rem 0}
+.sync-go{font-size:.85rem;letter-spacing:.2em;padding:.65rem 1.4rem}
+.sync-status{min-height:1.4em;margin:.8rem 0 0;color:var(--accent);font-style:italic}
+.sync-hr{border:0;border-top:1px solid var(--rule);margin:1.2rem 0}
+.sync-h{margin:0 0 .4rem;font-family:var(--ff-disp);font-weight:600;letter-spacing:.2em;text-transform:uppercase;font-size:.9rem;color:var(--accent)}
+.sync-body .btn-quiet{color:var(--accent)}

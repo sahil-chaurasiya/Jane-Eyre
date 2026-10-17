@@ -52,6 +52,7 @@
   }
   function flush() {
     timer = null;
+    if (window.__jeFrozen) return;
     try { localStorage.setItem(KEY, JSON.stringify({ v: VERSION, passages: list })); return true; }
     catch (e) { if (!warned && onFail) { warned = true; onFail(); } return false; }
   }

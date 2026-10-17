@@ -95,3 +95,8 @@ Semantic landmarks and labelled controls, visible focus rings, keyboard for ever
 Passages point into the book data by section, paragraph and character offset, so they survive font-size changes and repagination. Verse and signature lines cannot be kept yet.
 
 Tests: `tests/e2e.cjs` (original), `tests/details.cjs` and `tests/passages.cjs` (new; serve on port 8765 first).
+
+## Sync across devices
+
+Your position, bookmarks, highlights and passages sync through a small serverless function (`api/sync.js`) backed by a Redis database (Upstash, via Vercel Storage). Type the same private phrase on each device (Settings > Sync & backup, or "Sync devices" on the cover). Only a hash of the phrase is used; type size, paper and sound/lamp settings stay per device. Deletions sync too. Without a database the site still works exactly as before (everything stays in the browser). Backup/restore of a JSON file is built into the same dialog.
+Setup: Vercel project > Storage > Create Database > Upstash for Redis, connect it to the project, then redeploy. Tests: `tests/sync.cjs` (run `node tests/devserver.cjs` first; it serves the site on 8766 with a mock Redis).

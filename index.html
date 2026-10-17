@@ -50,6 +50,7 @@
     <div class="cover-links">
       <button id="beginBtn" class="btn-quiet" hidden>Begin again from the first page</button>
       <button id="coverPassages" class="btn-quiet" hidden>My Passages</button>
+      <button id="coverSync" class="btn-quiet">Sync devices</button>
     </div>
     <p id="coverNote" class="cover-note" role="status">Setting the type…</p>
   </div>
@@ -116,6 +117,7 @@
   <label class="set-row check"><input type="checkbox" id="optPause"><span>Pause at the end of each chapter</span></label>
   <div class="set-row check"><label><input type="checkbox" id="optAmbient"><span>Ambient sound <em>(rain &amp; hearth)</em></span></label>
     <input type="range" id="optVol" min="0" max="100" value="40" aria-label="Ambient volume"></div>
+  <div class="set-row"><span class="set-label">Devices</span><button type="button" id="btnSync" class="btn-quiet">Sync &amp; backup…</button></div>
   <p class="set-foot">Arrow keys turn pages · <kbd>[</kbd> <kbd>]</kbd> chapters · <kbd>C</kbd> contents · <kbd>B</kbd> bookmark · <kbd>F</kbd> focus · <kbd>L</kbd> lamp · <kbd>P</kbd> keep a selected passage · <kbd>M</kbd> My Passages</p>
 </section>
 
@@ -154,6 +156,31 @@
   <textarea id="kpNote" rows="3" maxlength="2000" placeholder="A note to yourself (optional)…" aria-label="Personal note (optional)"></textarea>
   <div class="np-row"><button type="button" id="kpCancel" class="danger">Cancel</button><button type="button" id="kpKeep">Keep</button></div>
 </div>
+<section id="syncDlg" class="journal sync-dlg" role="dialog" aria-modal="true" aria-labelledby="syncT" hidden>
+  <div class="j-sheet sync-sheet">
+    <header class="j-head"><div><h2 id="syncT">Sync &amp; backup</h2><p class="j-sub">Keep your place, bookmarks, highlights and passages the same on every device.</p></div>
+      <button class="ib" id="syncClose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="j-body sync-body">
+      <div id="syncOff">
+        <label for="syncPhrase" class="sync-lab">Your private sync phrase</label>
+        <input id="syncPhrase" type="password" autocomplete="off" placeholder="e.g. three or four words only you would choose">
+        <p class="sync-note">Type the same phrase on each device. It is turned into a private code in your browser; the phrase itself is never sent. Anyone who knows it can read and change your saved data, so make it long and personal.</p>
+        <button type="button" id="syncConnect" class="btn-open sync-go">Connect this device</button>
+      </div>
+      <div id="syncOn" hidden>
+        <p id="syncInfo" class="sync-note"></p>
+        <div class="sync-row"><button type="button" id="syncNow" class="btn-open sync-go">Sync now</button><button type="button" id="syncOffBtn" class="btn-quiet">Disconnect this device</button></div>
+      </div>
+      <p id="syncStatus" class="sync-status" role="status" aria-live="polite"></p>
+      <hr class="sync-hr">
+      <h3 class="sync-h">Backup</h3>
+      <div class="sync-row"><button type="button" id="syncExport" class="btn-quiet">Download a backup file</button></div>
+      <label for="syncImport" class="sync-lab">Restore from a backup (paste its contents)</label>
+      <textarea id="syncImport" rows="4" placeholder="Paste a backup here…"></textarea>
+      <button type="button" id="syncImportBtn" class="btn-quiet">Restore</button>
+    </div>
+  </div>
+</section>
 <section id="journal" class="journal" role="dialog" aria-modal="true" aria-labelledby="jTitle" hidden>
   <div class="j-sheet">
     <header class="j-head">
@@ -179,6 +206,7 @@
 <script src="js/paper.js"></script>
 <script src="js/passages.js"></script>
 <script src="js/journal.js"></script>
+<script src="js/sync.js"></script>
 <script src="js/cover.js"></script>
 <script src="js/app.js"></script>
 </body>
